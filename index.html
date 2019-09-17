@@ -3,6 +3,7 @@
   <head>
     <title>Severus Prototype</title> 
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
     <link rel="stylesheet" href="css/master.css">
   </head>
   <body>
@@ -23,11 +24,26 @@
           <p>Please respond iwth the current severity of your insomnia hey</p>
           <ul class="question-list">
             <!-- need to add radio buttons here -->
-            <li>None</li>
-            <li>Mild</li>
-            <li>Moderate</li>
-            <li>Severe</li>
-            <li>Very Severe</li>
+            <li>
+              <input type="radio" id="radio_none" name="radio" />
+              <label for="radio_none"><span class="wrap"><span class="bullet"></span></span>None</label>
+            </li>
+            <li>
+              <input type="radio" id="radio_mild" name="radio" />
+              <label for="radio_mild"><span class="wrap"><span class="bullet"></span></span>Mild</label>
+            </li>
+            <li>
+              <input type="radio" id="radio_moderate" name="radio" />
+              <label for="radio_moderate"><span class="wrap"><span class="bullet"></span></span>Moderate</label>
+            </li>
+            <li>
+              <input type="radio" id="radio_severe" name="radio" />
+              <label for="radio_severe"><span class="wrap"><span class="bullet"></span></span>Severe</label>
+            </li>
+            <li>
+              <input type="radio" id="radio_verysevere" name="radio" />
+              <label for="radio_verysevere"><span class="wrap"><span class="bullet"></span></span>Very Severe</label>
+            </li>
           </ul>
         </div>
 
