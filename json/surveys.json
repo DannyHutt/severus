@@ -15,7 +15,8 @@
     {"question": "I believe that insomnia is essentially a result of a chemical imbalance."},
     {"question": "I feel that insomnia is ruining my ability to enjoy life and prevents me from doing what I want."},
     {"question": "Medication is probably the only solution to sleeplessness."},
-    {"question": "I avoid or cancel obligations (social, family, occupational) after a poor night’s sleep."}
+    {"question": "I avoid or cancel obligations (social, family, occupational) after a poor night’s sleep."},
+    {"headline":"Several statements reflecting people’s beliefs and attitudes about sleep are listed below. Please indicate (by circling the number) to what extent you personally agree or disagree with each statement. There is no right or wrong answer. For each statement, circle a number that best reflects your personal experience. Consider the whole scale, rather than only the extremes of the continuum."}
   ],
   "depression": [
     {"question": "Difficulty falling asleep", "answers": ["None", "Mild","Moderate","Severe","Very Severe"]},
@@ -24,7 +25,8 @@
     {"question": "How SATISFIED/DISSATISFIED are you with your CURRENT sleep pattern?", "answers": ["Very satisfied", "Satisfied","Moderately satisfied","Dissatisfied","Very dissatisfied"]},
     {"question": "How NOTICEABLE to others do you think your sleep problem is in terms of impairing the quality of your life?", "answers": ["Not at all noticeable", "A little","Somewhat","Much","Very much noticeable"]},
     {"question": "How WORRIED/DISTRESSED are you about your current sleep problem?", "answers": ["Not at all worried", "A little","Somewhat","Much","Very much worried"]},
-    {"question": "To what extent do you consider your sleep problem to INTERFERE with your daily functioning (e.g. daytime fatigue, mood, ability to function at work/daily chores, concentration, memory, mood, etc.) CURRENTLY?", "answers": ["Not at all interfering", "A little","Somewhat","Much","Very much interfering"]}
+    {"question": "To what extent do you consider your sleep problem to INTERFERE with your daily functioning (e.g. daytime fatigue, mood, ability to function at work/daily chores, concentration, memory, mood, etc.) CURRENTLY?", "answers": ["Not at all interfering", "A little","Somewhat","Much","Very much interfering"]},
+    {"headline":"For each question, please select the number that best describes your answer. Please rate the CURRENT (i.e last two weeks) SEVERITY of your insomnia problem(s)"}
   ],
   "anxiety": [
     {"question": "Feeling nervous, anxious, or on edge", "answers": ["Not at all", "Several days", "More than half the days", "Nearly every day"]},
@@ -33,7 +35,8 @@
     {"question": "Trouble relaxing", "answers": ["Not at all", "Several days", "More than half the days", "Nearly every day"]},
     {"question": "Being so restless that it is hard to sit still", "answers": ["Not at all", "Several days", "More than half the days", "Nearly every day"]},
     {"question": "Becoming easily annoyed or irritable", "answers": ["Not at all", "Several days", "More than half the days", "Nearly every day"]},
-    {"question": "Feeling afraid, as if something awful might happen", "answers": ["Not at all", "Several days", "More than half the days", "Nearly every day"]}
+    {"question": "Feeling afraid, as if something awful might happen", "answers": ["Not at all", "Several days", "More than half the days", "Nearly every day"]},
+    {"headline":"Over the last two weeks, how often have you been bothered by the following problems?"}
   ],
   "insomnia": [
     {"question": "Little interest or pleasure in doing things", "answers": ["Not at all", "Several days", "More than half the days", "Nearly every day"]},
@@ -44,6 +47,7 @@
     {"question": "Feeling bad about yourself - or that you are a failure or have let yourself or your family down", "answers": ["Not at all", "Several days", "More than half the days", "Nearly every day"]},
     {"question": "Trouble concentrating on things, such as reading the newspaper or watching television", "answers": ["Not at all", "Several days", "More than half the days", "Nearly every day"]},
     {"question": "Moving or speaking so slowly that other people could have noticed. Or the opposite - being so figety or restless that you have been moving around a lot more than usual", "answers": ["Not at all", "Several days", "More than half the days", "Nearly every day"]},
-    {"question": "Thoughts that you would be better off dead, or of hurting yourself", "answers": ["Not at all", "Several days", "More than half the days", "Nearly every day"]}
+    {"question": "Thoughts that you would be better off dead, or of hurting yourself", "answers": ["Not at all", "Several days", "More than half the days", "Nearly every day"]},
+    {"headline":"Over the last two weeks, how often have you been bothered by any of the following problems?"}
   ]
 }}
