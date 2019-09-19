@@ -26,7 +26,7 @@
     {"question": "How NOTICEABLE to others do you think your sleep problem is in terms of impairing the quality of your life?", "answers": ["Not at all noticeable", "A little","Somewhat","Much","Very much noticeable"]},
     {"question": "How WORRIED/DISTRESSED are you about your current sleep problem?", "answers": ["Not at all worried", "A little","Somewhat","Much","Very much worried"]},
     {"question": "To what extent do you consider your sleep problem to INTERFERE with your daily functioning (e.g. daytime fatigue, mood, ability to function at work/daily chores, concentration, memory, mood, etc.) CURRENTLY?", "answers": ["Not at all interfering", "A little","Somewhat","Much","Very much interfering"]},
-    {"headline":"For each question, please select the number that best describes your answer. Please rate the CURRENT (i.e last two weeks) SEVERITY of your insomnia problem(s)"}
+    {"headline":"Please rate the CURRENT (i.e last two weeks) SEVERITY of your insomnia problem(s)"}
   ],
   "anxiety": [
     {"question": "Feeling nervous, anxious, or on edge", "answers": ["Not at all", "Several days", "More than half the days", "Nearly every day"]},

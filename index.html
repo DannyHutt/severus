@@ -10,7 +10,11 @@
   <body>
     <div id='Wrapper' class='wrapper'>
       <header>
-        <h1>Question 2 of 7</h1>
+        <h1 id="HeaderText">
+          <!-- //////////////////////////////////// -->
+          <!-- //////// headline goes here //////// -->
+          <!-- //////////////////////////////////// -->
+        </h1>
         <div class='progressBar-wrapper'>
           <div class='progressBar-bg'>
             <div class='progressBar-bar'></div>
@@ -18,39 +22,10 @@
         </div> <!--  / .progressBar_wrapper -->
       </header>
 
-      <div class='content-wrapper'>
-
-        <div class='content-card'>
-
-          <h2>How difficult is it for you to fall asleep?</h2>
-          <p>Please respond with the current severity of your insomnia</p>
-
-          <ul class="question-list">
-            <!-- need to add radio buttons here -->
-            <li>
-              <input type="radio" id="radio_none" name="radio" />
-              <label for="radio_none"><span class="wrap"><span class="bullet"></span></span>None</label>
-            </li>
-            <li>
-              <input type="radio" id="radio_mild" name="radio" />
-              <label for="radio_mild"><span class="wrap"><span class="bullet"></span></span>Mild</label>
-            </li>
-            <li>
-              <input type="radio" id="radio_moderate" name="radio" />
-              <label for="radio_moderate"><span class="wrap"><span class="bullet"></span></span>Moderate</label>
-            </li>
-            <li>
-              <input type="radio" id="radio_severe" name="radio" />
-              <label for="radio_severe"><span class="wrap"><span class="bullet"></span></span>Severe</label>
-            </li>
-            <li>
-              <input type="radio" id="radio_verysevere" name="radio" />
-              <label for="radio_verysevere"><span class="wrap"><span class="bullet"></span></span>Very Severe</label>
-            </li>
-
-          </ul>
-        </div>
-
+      <div id="Card-Wrapper" class='card-wrapper'>
+      <!-- //////////////////////////////////// -->
+      <!-- //////// content goes here ///////// -->
+      <!-- //////////////////////////////////// -->
       </div> <!--  / .content_wrapper -->
 
       <div class='btn-wrapper'>
@@ -64,27 +39,131 @@
 
 <!-- Includes  -->
 
+
+
+
+
+
   <script src="js/scripts.js"></script>
   <script src="js/jquery-3.2.1.min.js"></script>
   <script src="js/handlebars-v4.2.0.js"></script>
 
-  <script id="entry-template" type="text/x-handlebars-template">
-    <div class="entry">
-      <h1>{{title}}</h1>
-      <div class="body">
-        {{body}}
-      </div>
+
+
+  <!-- //////////////////////////////// -->
+  <!-- //////// card template ///////// -->
+  <!-- //////////////////////////////// -->
+
+  <script id="Card-Template" type="text/x-handlebars-template">
+    <div class='content-card'>
+
+      <h2>{{question}}</h2>
+      <p>{{headline}}</p>
+
+      <ul class="question-list">
+
+        {{#each answers}}
+          <li>
+            <input type="radio" id="radio_{{answer}}" name="radio" />
+            <label for="radio_{{answer}}"><span class="wrap"><span class="bullet"></span></span>{{answer}}</label>
+          </li>
+        {{/each}}
+
+      </ul>
     </div>
   </script>
 
 
+  <!-- ////////////////////////////////// -->
+  <!-- //////// header template ///////// -->
+  <!-- ////////////////////////////////// -->
+
+  <!-- might not need this -->
+  <script id="Header-Template" type="text/x-handlebars-template">
+
+  </script>
+
+
+
+
+
+
   <script type="text/javascript">
 
-    var source   = document.getElementById("entry-template").innerHTML;
-    var template = Handlebars.compile(source);
 
-    var context = {title: "My New Post", body: "This is my first post!"};
-    var html    = template(context);
+
+
+    /////////////////////////////////
+    //////// Header Template ////////
+    /////////////////////////////////
+
+    /*
+
+    header just needs to:
+
+    - display the total number of questions
+    - display which number we are currently on
+    - adjust the progress bar accordingly
+    
+    */
+
+    var qNumber = '1';
+    var qTotal = '7';
+
+    // make the header structure
+    var headerTemplateSource = "Question "+qNumber+" of "+ qTotal;
+    // sprinkle some magic dust on it
+    var headerTemplate = Handlebars.compile(headerTemplateSource);
+
+    // add data to it
+    // var header = headerTemplate({
+    //   question: "Difficulty falling asleep",
+    //   headline: "Please rate the CURRENT (i.e last two weeks) SEVERITY of your insomnia problem(s)",
+    //   answers: [
+    //     {answer: "None"},
+    //     {answer: "Mild"},
+    //     {answer: "Moderate"},
+    //     {answer: "Severe"},
+    //     {answer: "Very Severe"}
+    //   ]
+    // });
+
+    // show the people
+    $('#HeaderText').html(headerTemplateSource);
+
+
+
+
+    ///////////////////////////////
+    //////// Card Template ////////
+    ///////////////////////////////
+
+    // get the card template structure
+    var cardTemplateSource = document.getElementById("Card-Template").innerHTML;
+
+    // sprinkle some magic dust on it
+    var cardTemplateClean = Handlebars.compile(cardTemplateSource);
+
+    // add data to it
+    var cardTemplateDirty = cardTemplateClean({
+      question: "Difficulty falling asleep",
+      headline: "Please rate the CURRENT (i.e last two weeks) SEVERITY of your insomnia problem(s)",
+      answers: [
+        {answer: "None"},
+        {answer: "Mild"},
+        {answer: "Moderate"},
+        {answer: "Severe"},
+        {answer: "Very Severe"}
+      ]
+    });
+
+    // show the people
+    $('#Card-Wrapper').html(cardTemplateDirty);
+
+
+
+
+
 
   </script>
 
