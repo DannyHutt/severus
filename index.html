@@ -29,8 +29,8 @@
       </div> <!--  / .content_wrapper -->
 
       <div class='btn-wrapper'>
-        <button class='btn btn-primary'>Next</button>
-        <button class='btn btn-secondary'>Previous</button>
+        <button id="Btn_Previous" class='btn btn-secondary'>Previous</button>
+        <button id="Btn_Next" class='btn btn-primary'>Next</button>
       </div>
 
     </div> <!--  / #Wrapper -->
@@ -40,14 +40,9 @@
 <!-- Includes  -->
 
 
-
-
-
-
   <script src="js/scripts.js"></script>
   <script src="js/jquery-3.2.1.min.js"></script>
   <script src="js/handlebars-v4.2.0.js"></script>
-
 
 
   <!-- //////////////////////////////// -->
@@ -74,93 +69,83 @@
   </script>
 
 
-  <!-- ////////////////////////////////// -->
-  <!-- //////// header template ///////// -->
-  <!-- ////////////////////////////////// -->
-
-  <!-- might not need this -->
-  <script id="Header-Template" type="text/x-handlebars-template">
-
-  </script>
-
-
-
-
-
-
   <script type="text/javascript">
 
+    var numCurrentQ;
+    var depressionQuestions;
+    var questionText;
+    var answers;
+    var numTotalQ;
+    var cardTemplateSource;
+    var cardTemplateClean;
+    var cardTemplateDirty;
 
 
 
-    /////////////////////////////////
-    //////// Header Template ////////
-    /////////////////////////////////
+    $(function(){
 
-    /*
+      ///////////////////////////
+      ////// DEPRESSION /////////
+      ///////////////////////////
 
-    header just needs to:
+      // set current question number
+      numCurrentQ = 0;
+      var currentQuestionNum = numCurrentQ + 1;
+      // get depression questions data
+      depressionQuestions = data.surveys.depression.questions;
+      // get current question text
+      questionText = depressionQuestions[numCurrentQ].question;
+      // get answers for current question
+      answers = depressionQuestions[numCurrentQ].answers;
+      // get total questions number
+      numTotalQ = depressionQuestions.length;
 
-    - display the total number of questions
-    - display which number we are currently on
-    - adjust the progress bar accordingly
-    
-    */
+      // update the header
+      $('#HeaderText').html("Question "+currentQuestionNum+" of "+ numTotalQ);
 
-    var qNumber = '1';
-    var qTotal = '7';
+      // get the card template structure
+      cardTemplateSource = document.getElementById("Card-Template").innerHTML;
 
-    // make the header structure
-    var headerTemplateSource = "Question "+qNumber+" of "+ qTotal;
-    // sprinkle some magic dust on it
-    var headerTemplate = Handlebars.compile(headerTemplateSource);
+      // sprinkle some magic dust on it
+      cardTemplateClean = Handlebars.compile(cardTemplateSource);
 
-    // add data to it
-    // var header = headerTemplate({
-    //   question: "Difficulty falling asleep",
-    //   headline: "Please rate the CURRENT (i.e last two weeks) SEVERITY of your insomnia problem(s)",
-    //   answers: [
-    //     {answer: "None"},
-    //     {answer: "Mild"},
-    //     {answer: "Moderate"},
-    //     {answer: "Severe"},
-    //     {answer: "Very Severe"}
-    //   ]
-    // });
+      // add data to it
+      cardTemplateDirty = cardTemplateClean(depressionQuestions[numCurrentQ]);
 
-    // show the people
-    $('#HeaderText').html(headerTemplateSource);
+      // show the people
+      $('#Card-Wrapper').html(cardTemplateDirty);
 
+        $('#Btn_Next').click(function(){
+          updateScreen(depressionQuestions, numCurrentQ);
+        });
 
-
-
-    ///////////////////////////////
-    //////// Card Template ////////
-    ///////////////////////////////
-
-    // get the card template structure
-    var cardTemplateSource = document.getElementById("Card-Template").innerHTML;
-
-    // sprinkle some magic dust on it
-    var cardTemplateClean = Handlebars.compile(cardTemplateSource);
-
-    // add data to it
-    var cardTemplateDirty = cardTemplateClean({
-      question: "Difficulty falling asleep",
-      headline: "Please rate the CURRENT (i.e last two weeks) SEVERITY of your insomnia problem(s)",
-      answers: [
-        {answer: "None"},
-        {answer: "Mild"},
-        {answer: "Moderate"},
-        {answer: "Severe"},
-        {answer: "Very Severe"}
-      ]
-    });
-
-    // show the people
-    $('#Card-Wrapper').html(cardTemplateDirty);
+      }); // ready
 
 
+      function updateScreen(depressionQuestions){
+      console.log('stop');
+        var questionsObj = depressionQuestions;
+        if(numCurrentQ == numTotalQ-1){
+          numCurrentQ = 0;
+        }else{
+          numCurrentQ++;
+        }
+
+
+        // get current question text
+        var newQuestionText = questionsObj[numCurrentQ].question;
+        // get answers for current question
+        var newAnswers = questionsObj[numCurrentQ].answers;
+        var currentQuestionNum = numCurrentQ + 1;
+        // update the header
+        $('#HeaderText').html("Question "+currentQuestionNum+" of "+ numTotalQ);
+
+        // add data to it
+        var newCardTemplateDirty = cardTemplateClean(depressionQuestions[numCurrentQ]);
+        // show the people
+        $('#Card-Wrapper').html(newCardTemplateDirty);
+
+      }
 
 
 
