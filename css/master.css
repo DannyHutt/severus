@@ -68,10 +68,12 @@ header{
 }
 
 .card-wrapper{
-  margin-bottom:400px;
+  
   background-color: #2A2A2A;
   border-radius:10px;
   padding:10px 20px;
+  height:100%
+
 }
 
 .btn-wrapper{
