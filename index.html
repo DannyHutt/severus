@@ -66,8 +66,8 @@
   <script id="Card-Template" type="text/x-handlebars-template">
     <div class='content-card'>
 
-      <h2>{{question}}</h2>
       <p>{{headline}}</p>
+      <h2>{{question}}</h2>
 
       <ul class="question-list">
 
@@ -300,8 +300,13 @@
 
       // add data to the template
       var cardTemplateDirty = cardTemplateClean(questionSet[newScreenNum]);
+
       // show the people
-      $('#Card-Wrapper').html(cardTemplateDirty);
+      $('#Wrapper').fadeOut('fast',function(){
+        $('#Card-Wrapper').html(cardTemplateDirty);
+        $(this).fadeIn();
+      });
+
 
     }
 
