@@ -4,6 +4,8 @@
     <title>Severus Prototype</title> 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content= "width=device-width, user-scalable=no">
+
     <link rel="stylesheet" href="css/master.css">
     <link rel="manifest" href="json/manifest.json">
   </head>
@@ -29,15 +31,27 @@
       </div> <!--  / .content_wrapper -->
 
       <div class='btn-wrapper'>
-        <button id="Btn_Previous" class='btn btn-secondary'>Previous</button>
         <button id="Btn_Next" class='btn btn-primary'>Next</button>
+        <button id="Btn_Previous" class='btn btn-secondary'>Previous</button>
       </div>
 
     </div> <!--  / #Wrapper -->
 
+
+
+
+
+    <div class="overlayPanel wrapper">
+
+    </div> <!--  / .overlayPanel -->
+
+
+
+
+
   </body>
 
-<!-- Includes  -->
+</html>
 
 
   <script src="js/scripts.js"></script>
@@ -46,7 +60,7 @@
 
 
   <!-- //////////////////////////////// -->
-  <!-- //////// card template ///////// -->
+  <!-- //////// templates ///////////// -->
   <!-- //////////////////////////////// -->
 
   <script id="Card-Template" type="text/x-handlebars-template">
@@ -68,89 +82,341 @@
     </div>
   </script>
 
+  <script id="Panel-Template" type="text/x-handlebars-template">
+    <div class="panelContent">
+
+      <h2>{{panelHeading}}</h2>
+      <p>{{panelBody}}</p>
+
+      <div class='btn-wrapper'>
+        <!-- <button id="Btn_Continue" class='btn btn-primary'>Continue</button> -->
+        <button id="Btn_Start" class='btn btn-primary'>{{btnLabel}}</button>
+        <!-- <button id="Btn_Close" class='btn btn-primary'>Close</button> -->
+      </div>
+
+    </div>
+  </script>
+
 
   <script type="text/javascript">
 
     var numCurrentQ;
     var depressionQuestions;
+    var insomniaQuestions;
+    var anxietyQuestions;
+    var beliefQuestions;
+    var questionSet;
     var questionText;
     var answers;
     var numTotalQ;
     var cardTemplateSource;
     var cardTemplateClean;
-    var cardTemplateDirty;
+    var panelTemplateSource;
+    var panelTemplateClean;
+    var currentQuestionNum;
+    var currentSection;
 
 
 
     $(function(){
 
-      ///////////////////////////
-      ////// DEPRESSION /////////
-      ///////////////////////////
 
-      // set current question number
-      numCurrentQ = 0;
-      var currentQuestionNum = numCurrentQ + 1;
-      // get depression questions data
-      depressionQuestions = data.surveys.depression.questions;
-      // get current question text
-      questionText = depressionQuestions[numCurrentQ].question;
-      // get answers for current question
-      answers = depressionQuestions[numCurrentQ].answers;
-      // get total questions number
-      numTotalQ = depressionQuestions.length;
+      ////////////////////////////////
+      ////// page load  //////////////
+      ////////////////////////////////
 
-      // update the header
-      $('#HeaderText').html("Question "+currentQuestionNum+" of "+ numTotalQ);
-
-      // get the card template structure
+      // get the handlebars tempalate structure
       cardTemplateSource = document.getElementById("Card-Template").innerHTML;
+      panelTemplateSource = document.getElementById("Panel-Template").innerHTML;
 
-      // sprinkle some magic dust on it
+      // sprinkle some magic dust
       cardTemplateClean = Handlebars.compile(cardTemplateSource);
+      panelTemplateClean = Handlebars.compile(panelTemplateSource);
 
-      // add data to it
-      cardTemplateDirty = cardTemplateClean(depressionQuestions[numCurrentQ]);
 
+
+
+
+      // get data for each question set...
+
+      // depression questions
+      depressionQuestions = data.surveys.depression.questions;
+      // belief questions
+      beliefQuestions = data.surveys.beliefs.questions;
+      // anxiety questions
+      anxietyQuestions = data.surveys.anxiety.questions;
+      // insomnia questions
+      insomniaQuestions = data.surveys.insomnia.questions;
+
+
+
+      // load the first set of questions
+      changeSection('depression'); // this should be beliefs
+
+
+
+      /////////////////////////////////
+      ////// click handlers  //////////
+      /////////////////////////////////
+
+
+      // handler for tapping on an answer
+      $('#Card-Wrapper').on('click', 'ul.question-list li', function(){
+        // we made a selection so enable the next button
+        enableNext();
+      });
+
+
+      $('.overlayPanel').on('click', '#Btn_Start', function(){
+        // close the overlay and remove its contents
+        closeOverlay();
+      });
+
+
+
+      // next button /////////////////////
+      ////////////////////////////////////
+
+      $('#Btn_Next').click(function(){
+        var goToNum;
+        // enable or disable previous button
+        if(numCurrentQ == 0){
+            numCurrentQ++;
+            goToNum = numCurrentQ;
+            updateScreen(goToNum);
+            enablePrevious();
+        }else if(numCurrentQ == numTotalQ - 1){
+          // WE HAVE REACHED THE LAST QUESTION
+          // go to the next section.
+          switch(currentSection){
+            case 'beliefs':
+              changeSection('depression');
+              break;
+            case 'depression':
+              changeSection('anxiety');
+              break;
+            case 'anxiety':
+              changeSection('insomnia');
+              break;
+            case 'insomnia':
+              changeSection('beliefs');
+              break;
+            default:
+              console.log('theres a problem with this statement');
+          }
+        }else{
+          numCurrentQ++;
+          goToNum = numCurrentQ;
+          updateScreen(goToNum);
+        }
+      });
+
+      // previous button /////////////////////
+      ////////////////////////////////////////
+
+      $('#Btn_Previous').click(function(){
+
+        // show or hide previous button
+        if(numCurrentQ > 0){
+          numCurrentQ--;
+        }
+
+        var goToNum = numCurrentQ;
+        updateScreen(goToNum);
+      });
+
+
+    }); ////////////////////////// dom ready ////////////////////////////////
+
+
+    /////////////////////////////////
+    ////// methods //////////////////
+    /////////////////////////////////
+
+    function closeOverlay(){
+      // hide the overlay panel and remove its contents
+      $('.overlayPanel').hide();
+      $('.overlayPanel').empty();
+    }
+
+    function changeSection(newSection){
+
+      // set the name of the new current section
+      currentSection = newSection;
+
+      switch(newSection){
+        case 'beliefs':
+          questionSet = beliefQuestions;
+          break;
+        case 'depression':
+          questionSet = depressionQuestions;
+          break;
+        case 'anxiety':
+          questionSet = anxietyQuestions;
+          break;
+        case 'insomnia':
+          questionSet = insomniaQuestions;
+          break;
+        default:
+          console.log('im not sure where to go check change section');
+      }
+
+      // get questions length
+      numTotalQ = questionSet.length;
+
+      showOverlay(newSection);
+      updateScreen(0);
+
+    }
+
+
+    function updateScreen(goToNum){
+
+      var newScreenNum = goToNum;
+
+      // if this is the first question in the set then disable the previous button
+      if(newScreenNum == 0){
+        disablePrevious();
+      }else{
+        enablePrevious();
+      }
+
+      // update current question variable
+      numCurrentQ = newScreenNum;
+
+      // disable next button
+      // next gets enabled when a selection is made
+      disableNext();
+
+      // get current question text
+      questionText = questionSet[numCurrentQ].question;
+      // get answers for current question
+      answers = questionSet[numCurrentQ].answers;
+
+      // update current question number for display
+      currentQuestionNum = newScreenNum + 1; // normalize
+      // update the header
+      updateHeader();
+
+      // add data to the template
+      var cardTemplateDirty = cardTemplateClean(questionSet[newScreenNum]);
       // show the people
       $('#Card-Wrapper').html(cardTemplateDirty);
 
-        $('#Btn_Next').click(function(){
-          updateScreen(depressionQuestions, numCurrentQ);
-        });
+    }
 
-      }); // ready
+    function showOverlay(section){
 
+      var panelContent;
+      var data;
 
-      function updateScreen(depressionQuestions){
-      console.log('stop');
-        var questionsObj = depressionQuestions;
-        if(numCurrentQ == numTotalQ-1){
-          numCurrentQ = 0;
-        }else{
-          numCurrentQ++;
-        }
-
-
-        // get current question text
-        var newQuestionText = questionsObj[numCurrentQ].question;
-        // get answers for current question
-        var newAnswers = questionsObj[numCurrentQ].answers;
-        var currentQuestionNum = numCurrentQ + 1;
-        // update the header
-        $('#HeaderText').html("Question "+currentQuestionNum+" of "+ numTotalQ);
-
-        // add data to it
-        var newCardTemplateDirty = cardTemplateClean(depressionQuestions[numCurrentQ]);
-        // show the people
-        $('#Card-Wrapper').html(newCardTemplateDirty);
-
+      switch(section){
+        case 'beliefs':
+          data = {
+            panelHeading: "Beliefs about insomnia",
+            panelBody: "This is part 1 of a 4 part quiz",
+            btnLabel: "Start Quiz"
+          };
+          break;
+        case 'anxiety':
+          data = {
+            panelHeading: "Anxiety",
+            panelBody: "This is part 2 of a 4 part quiz",
+            btnLabel: "Start Quiz"
+          };
+          break;
+        case 'depression':
+          data = {
+            panelHeading: "Depression",
+            panelBody: "This is part 3 of a 4 part quiz",
+            btnLabel: "Start Quiz"
+          };
+          break;
+        case 'insomnia':
+          data = {
+            panelHeading: "Insomnia",
+            panelBody: "This is part 4 of a 4 part quiz",
+            btnLabel: "Start Quiz"
+          };
+          break;
+        default:
+          console.log('problem loading overlay panel');
       }
 
+      panelTemplateDirty = panelTemplateClean(data);
+      $('.overlayPanel').html(panelTemplateDirty);
+      $('.overlayPanel').show();
+    }
+
+    function updateHeader(){
+      // update the header
+      $('#HeaderText').html("Question "+currentQuestionNum+" of "+ numTotalQ);
+    }
+
+    // check if there is a radio button selected
+    function atLeastOneRadio() {
+      return ($('input[type=radio]:checked').size() > 0);
+    }
+
+    function disableNext(){
+      // disable the next button
+      $("#Btn_Next").attr("disabled", true);
+      $('#Btn_Next').addClass('disabled');
+    }
+
+    function disablePrevious(){
+      // disable the previous button
+      $("#Btn_Previous").attr("disabled", true);
+      $('#Btn_Previous').addClass('disabled');
+    }
+
+    function enableNext(){
+      // enable the next button
+      $('#Btn_Next').removeAttr("disabled");
+      $('#Btn_Next').removeClass('disabled');
+    }
+
+    function enablePrevious(){
+      // disable the previous button
+      $("#Btn_Previous").removeAttr("disabled");
+      $('#Btn_Previous').removeClass('disabled');
+    }
+
+
+
+    /////////////// /////////////// /////////////// /////////////// /////////////// ///////////////
+
+    // here we need to add some logic for what to do at the end of a section...
+    // need a transition page, look at what flavia was talking about for text that goes before or inbetween sections.
+
+    // just need to choose the next section, switch the new data set and print it to the screen...
+    // also need to deal with the structure of beliefs being different.. need a scrubber for that one too.
+    // ** i should put the scrubber on code pen for later.
+
+    // once that is all working need to look at cleaning things up, the feeling of going through it etc,
+    // disable the zoom on mobile devices, see about full screen hacks...
+
+    // might want to allow saving in place after they finish each section.
+    // might want to remember the choices.
+    // might want to create a landing page that lets you start at different spots.
+    // might want to think about what it means to change the layout a bit..
+    // same questions, but maybe just different selection controls (one tap vs two) or even a bot...
+
+
+    // make sure it works good on an ipad.
+    // send it.
+
+
+    // ********* THEN *********** //
+    // do some design work in sketch while waiting for feedback and start making updates to the prototype.
+
+
+    // ***** how are we going to manage versions of prototypes?
+    // maybe index should be the dashboard/landing screen where you choose your adventure.
+    // then from there you launch into any of the 4 sections...?
+
+    /////////////// /////////////// /////////////// /////////////// /////////////// ///////////////
 
 
 
   </script>
-
-
-</html>

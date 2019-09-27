@@ -35,7 +35,7 @@ ul{
 
 li{
   font-size:16px;
-  line-height: 60px;
+  line-height: 50px;
   list-style:none;
 }
 
@@ -69,12 +69,29 @@ header{
 
 .card-wrapper{
 
-  background-color: #2A2A2A;
-  border-radius:10px;
-  padding:10px 20px;
   height:100%
 
 }
+
+/* ////////////////////////////////////////////////////////////// */
+/* ///////////////////  overlay panel  /////////////////// */
+/* ////////////////////////////////////////////////////////////// */
+
+
+.overlayPanel
+{
+  position:absolute;
+  top:0;
+  left:0;
+  right:0;
+  bottom:0;
+  background-color:#000;
+}
+
+/* ////////////////////////////////////////////////////////////// */
+/* ///////////////////  buttons  /////////////////// */
+/* ////////////////////////////////////////////////////////////// */
+
 
 .btn-wrapper{
   position:fixed;
@@ -96,6 +113,11 @@ header{
   margin-top:12px;
   font-size:12px;
   font-weight: bold;
+  border:0px;
+}
+
+.btn.disabled{
+  opacity:0.3;
 }
 
 .btn-primary{
@@ -107,7 +129,6 @@ header{
   background-color:transparent;
   border:1px solid #fff;
   color:#fff;
-  display:none;
 }
 
 /* ////////////////////////////////////////////////////////////// */
@@ -120,7 +141,7 @@ input[type="radio"] {
 input[type="radio"] + label {
     font-family:arial;
   color:#fff;
-  font-size:16px;
+  font-size:14px;
     cursor:pointer;
 }
 input[type="radio"] + label span {
