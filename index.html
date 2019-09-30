@@ -78,9 +78,11 @@
         {{/each}}
       </ul>
 
-      <div class="slidecontainer">
-        <div id="rangeOutput"></div>
-        <input type="range" min="1" max="100" value="50" class="slider" id="myRange">
+      <div class="slideWrapper">
+        <div class="rangeOutput" id="rangeOutput">5</div>
+        <div class="slidecontainer">
+          <input type="range" min="0" max="10" value="5" class="slider" id="myRange">
+        </div>
       </div>
 
     </div>
@@ -161,14 +163,16 @@
       // load the first set of questions
       changeSection('beliefs');
 
-      // var slider = document.getElementById("myRange");
-      // //var output = document.getElementById("rangeOutput");
+      //var slider = document.getElementById("myRange");
+      // var output = document.getElementById("rangeOutput");
       // output.innerHTML = slider.value; // Display the default slider value
       //
       // // Update the current slider value (each time you drag the slider handle)
       // slider.oninput = function() {
       //   output.innerHTML = this.value;
       // }
+      //
+      // var value;
 
       /////////////////////////////////
       ////// event handlers  //////////
@@ -177,10 +181,8 @@
       $('#Card-Wrapper').on('input', '#myRange', function(){
         // we made a selection so enable the next button
         enableNext();
-    console.log('stop');
-        var value = $('#myRange').value;
-        $(this).find('#rangeOutput').html(value);
-
+        var value = this.value;
+        updateSliderValue(value);
       });
 
 
@@ -257,7 +259,9 @@
     ////// methods //////////////////
     /////////////////////////////////
 
-
+    function updateSliderValue(val){
+      $('#rangeOutput').html(val);
+    }
 
     function closeOverlay(){
       // hide the overlay panel and remove its contents
