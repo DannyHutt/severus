@@ -41,10 +41,14 @@
 
 
 
-    <div class="overlayPanel wrapper">
+    <div class="overlayPanel wrapper"></div> <!--  / .overlayPanel -->
+    <div class="finishedOverlay wrapper">
 
+      <h1>Complete!</h1>
+      <div class='btn-wrapper'>
+        <button id="Btn_Continue" class='btn btn-primary'>Continue</button>
+      </div>
     </div> <!--  / .overlayPanel -->
-
 
 
 
@@ -98,7 +102,7 @@
       <p>{{panelBody}}</p>
 
       <div class='btn-wrapper'>
-        <!-- <button id="Btn_Continue" class='btn btn-primary'>Continue</button> -->
+
         <button id="Btn_Start" class='btn btn-primary'>{{btnLabel}}</button>
         <!-- <button id="Btn_Close" class='btn btn-primary'>Close</button> -->
       </div>
@@ -192,6 +196,11 @@
       });
 
 
+      $('#Btn_Continue').click(function(){
+        $('.finishedOverlay').fadeOut();
+      })
+
+
 
       // next button /////////////////////
       ////////////////////////////////////
@@ -206,6 +215,7 @@
             enablePrevious();
         }else if(numCurrentQ == numTotalQ - 1){
           // WE HAVE REACHED THE LAST QUESTION
+            showFinishedOverlay();
           // go to the next section.
           switch(currentSection){
             case 'beliefs':
@@ -376,6 +386,10 @@
       panelTemplateDirty = panelTemplateClean(data);
       $('.overlayPanel').html(panelTemplateDirty);
       $('.overlayPanel').show();
+    }
+
+    function showFinishedOverlay(){
+      $('.finishedOverlay').show();
     }
 
     function updateHeader(){

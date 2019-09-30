@@ -74,7 +74,8 @@ header{
 /* ////////////////////////////////////////////////////////////// */
 
 
-.overlayPanel
+.overlayPanel,
+.finishedOverlay
 {
   position:absolute;
   top:0;
@@ -83,6 +84,28 @@ header{
   bottom:0;
   background-color:#000;
 }
+
+.overlayPanel .panelContent {
+  margin-top:150px;
+  text-align: center;
+  font-size:18px;
+}
+
+.overlayPanel .panelContent h2 {
+  font-size:35px;
+}
+
+.finishedOverlay h1 {
+  margin-top:150px;
+  margin-bottom:250px;
+  text-align:center;
+  font-size:35px;
+}
+
+.finishedOverlay{
+  display:none;
+}
+
 
 /* ////////////////////////////////////////////////////////////// */
 /* ///////////////////  buttons  /////////////////// */
