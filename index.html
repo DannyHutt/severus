@@ -70,16 +70,21 @@
       <h2>{{question}}</h2>
 
       <ul class="question-list">
-
         {{#each answers}}
           <li>
             <input type="radio" id="radio_{{answer}}" name="radio" />
             <label for="radio_{{answer}}"><span class="wrap"><span class="bullet"></span></span>{{answer}}</label>
           </li>
         {{/each}}
-
       </ul>
+
+      <div class="slidecontainer">
+        <div id="rangeOutput"></div>
+        <input type="range" min="1" max="100" value="50" class="slider" id="myRange">
+      </div>
+
     </div>
+
   </script>
 
   <script id="Panel-Template" type="text/x-handlebars-template">
@@ -101,20 +106,26 @@
   <script type="text/javascript">
 
     var numCurrentQ;
+    var numTotalQ;
+
+    var currentQuestionNum;
+    var currentSection;
+
     var depressionQuestions;
     var insomniaQuestions;
     var anxietyQuestions;
     var beliefQuestions;
+
     var questionSet;
     var questionText;
     var answers;
-    var numTotalQ;
+
     var cardTemplateSource;
     var cardTemplateClean;
+
     var panelTemplateSource;
     var panelTemplateClean;
-    var currentQuestionNum;
-    var currentSection;
+
 
 
 
@@ -134,9 +145,6 @@
       panelTemplateClean = Handlebars.compile(panelTemplateSource);
 
 
-
-
-
       // get data for each question set...
 
       // depression questions
@@ -151,13 +159,29 @@
 
 
       // load the first set of questions
-      changeSection('depression'); // this should be beliefs
+      changeSection('beliefs');
 
-
+      // var slider = document.getElementById("myRange");
+      // //var output = document.getElementById("rangeOutput");
+      // output.innerHTML = slider.value; // Display the default slider value
+      //
+      // // Update the current slider value (each time you drag the slider handle)
+      // slider.oninput = function() {
+      //   output.innerHTML = this.value;
+      // }
 
       /////////////////////////////////
-      ////// click handlers  //////////
+      ////// event handlers  //////////
       /////////////////////////////////
+
+      $('#Card-Wrapper').on('input', '#myRange', function(){
+        // we made a selection so enable the next button
+        enableNext();
+    console.log('stop');
+        var value = $('#myRange').value;
+        $(this).find('#rangeOutput').html(value);
+
+      });
 
 
       // handler for tapping on an answer
@@ -233,9 +257,11 @@
     ////// methods //////////////////
     /////////////////////////////////
 
+
+
     function closeOverlay(){
       // hide the overlay panel and remove its contents
-      $('.overlayPanel').hide();
+      $('.overlayPanel').fadeOut('fast');
       $('.overlayPanel').empty();
     }
 
@@ -292,11 +318,8 @@
       questionText = questionSet[numCurrentQ].question;
       // get answers for current question
       answers = questionSet[numCurrentQ].answers;
-
       // update current question number for display
       currentQuestionNum = newScreenNum + 1; // normalize
-      // update the header
-      updateHeader();
 
       // add data to the template
       var cardTemplateDirty = cardTemplateClean(questionSet[newScreenNum]);
@@ -304,9 +327,10 @@
       // show the people
       $('#Wrapper').fadeOut('fast',function(){
         $('#Card-Wrapper').html(cardTemplateDirty);
+        updateHeader();
+        updateProgressBar();
         $(this).fadeIn();
       });
-
 
     }
 
@@ -354,8 +378,16 @@
     }
 
     function updateHeader(){
-      // update the header
       $('#HeaderText').html("Question "+currentQuestionNum+" of "+ numTotalQ);
+    }
+
+    function updateProgressBar(){
+
+      var progressBarIncrement = Math.round(100 / numTotalQ);
+      var progressBarPosition = progressBarIncrement * currentQuestionNum;
+      var progressBarWidth = progressBarPosition+'%';
+
+      $('.progressBar-bar').css("width",progressBarWidth);
     }
 
     // check if there is a radio button selected
@@ -386,41 +418,6 @@
       $("#Btn_Previous").removeAttr("disabled");
       $('#Btn_Previous').removeClass('disabled');
     }
-
-
-
-    /////////////// /////////////// /////////////// /////////////// /////////////// ///////////////
-
-    // here we need to add some logic for what to do at the end of a section...
-    // need a transition page, look at what flavia was talking about for text that goes before or inbetween sections.
-
-    // just need to choose the next section, switch the new data set and print it to the screen...
-    // also need to deal with the structure of beliefs being different.. need a scrubber for that one too.
-    // ** i should put the scrubber on code pen for later.
-
-    // once that is all working need to look at cleaning things up, the feeling of going through it etc,
-    // disable the zoom on mobile devices, see about full screen hacks...
-
-    // might want to allow saving in place after they finish each section.
-    // might want to remember the choices.
-    // might want to create a landing page that lets you start at different spots.
-    // might want to think about what it means to change the layout a bit..
-    // same questions, but maybe just different selection controls (one tap vs two) or even a bot...
-
-
-    // make sure it works good on an ipad.
-    // send it.
-
-
-    // ********* THEN *********** //
-    // do some design work in sketch while waiting for feedback and start making updates to the prototype.
-
-
-    // ***** how are we going to manage versions of prototypes?
-    // maybe index should be the dashboard/landing screen where you choose your adventure.
-    // then from there you launch into any of the 4 sections...?
-
-    /////////////// /////////////// /////////////// /////////////// /////////////// ///////////////
 
 
 
