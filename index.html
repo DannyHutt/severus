@@ -70,7 +70,7 @@
   <script id="Card-Template" type="text/x-handlebars-template">
     <div class='content-card'>
 
-      <p>{{headline}}</p>
+
       <h2>{{question}}</h2>
 
       <ul class="question-list">
@@ -81,7 +81,7 @@
           </li>
         {{/each}}
       </ul>
-
+      <p>{{headline}}</p>
       <div class="slideWrapper">
         <div class="rangeOutput" id="rangeOutput">5</div>
         <div class="slidecontainer">
@@ -376,7 +376,7 @@
         case 'insomnia':
           data = {
             panelHeading: "Insomnia",
-            panelBody: "This is part 4 of a 4 part quiz",
+            panelBody: "This is the final part of a 4 part quiz",
             btnLabel: "Start Quiz"
           };
           break;
