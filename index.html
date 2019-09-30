@@ -38,20 +38,15 @@
     </div> <!--  / #Wrapper -->
 
 
-
-
-
     <div class="overlayPanel wrapper"></div> <!--  / .overlayPanel -->
     <div class="finishedOverlay wrapper">
 
       <h1>Complete!</h1>
+
       <div class='btn-wrapper'>
         <button id="Btn_Continue" class='btn btn-primary'>Continue</button>
       </div>
     </div> <!--  / .overlayPanel -->
-
-
-
 
   </body>
 
@@ -70,7 +65,7 @@
   <script id="Card-Template" type="text/x-handlebars-template">
     <div class='content-card'>
 
-
+      <p>{{headline}}</p>
       <h2>{{question}}</h2>
 
       <ul class="question-list">
@@ -81,7 +76,6 @@
           </li>
         {{/each}}
       </ul>
-      <p>{{headline}}</p>
       <div class="slideWrapper">
         <div class="rangeOutput" id="rangeOutput">5</div>
         <div class="slidecontainer">
@@ -198,7 +192,7 @@
 
       $('#Btn_Continue').click(function(){
         $('.finishedOverlay').fadeOut();
-      })
+      });
 
 
 
@@ -216,20 +210,21 @@
         }else if(numCurrentQ == numTotalQ - 1){
           // WE HAVE REACHED THE LAST QUESTION
             showFinishedOverlay();
-          // go to the next section.
+          // go to the next section...
+          // order should be insomnia, depression, anxiety, beliefs
           switch(currentSection){
-            case 'beliefs':
+            case 'insomnia':
               changeSection('depression');
               break;
             case 'depression':
               changeSection('anxiety');
               break;
             case 'anxiety':
-              changeSection('insomnia');
-              break;
-            case 'insomnia':
               changeSection('beliefs');
-              // instead of looping back to beliefs we should show a finished screen here
+              break;
+            case 'beliefs':
+              changeSection('insomnia');
+              // instead of looping back to insomnia we should show a finished screen here
               break;
             default:
               console.log('theres a problem with this statement');
@@ -319,9 +314,8 @@
       numCurrentQ = newScreenNum;
 
       // disable next button
-      // next gets enabled when a selection is made
-
       disableNext();
+      // next gets enabled when a selection is made
 
       // get current question text
       questionText = questionSet[numCurrentQ].question;
@@ -407,6 +401,7 @@
     }
 
     // check if there is a radio button selected
+    // this guy is not actually being used...
     function atLeastOneRadio() {
       return ($('input[type=radio]:checked').size() > 0);
     }
