@@ -176,6 +176,10 @@ input[type="radio"]:checked + label span.bullet {
 /* ///////////////////  end radio button styling  /////////////////// */
 
 
+.slideWrapper{
+  display:none;
+}
+
 .slidecontainer {
   width: 100%; /* Width of the outside container */
 }
