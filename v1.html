@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="css/master.css">
     <link rel="manifest" href="json/manifest.json">
   </head>
-  <body>
+  <body class="v1">
     <div id='Wrapper' class='wrapper'>
       <header>
         <h1 id="HeaderText">
@@ -59,7 +59,7 @@
 
 
   <!-- //////////////////////////////// -->
-  <!-- //////// templates ///////////// -->
+  <!-- //////// Card template ///////////// -->
   <!-- //////////////////////////////// -->
 
   <script id="Card-Template" type="text/x-handlebars-template">
@@ -89,6 +89,10 @@
 
   </script>
 
+  <!-- //////////////////////////////// -->
+  <!-- //////// Panel template ///////////// -->
+  <!-- //////////////////////////////// -->
+
   <script id="Panel-Template" type="text/x-handlebars-template">
     <div class="panelContent">
 
@@ -96,9 +100,7 @@
       <p>{{panelBody}}</p>
 
       <div class='btn-wrapper'>
-
         <button id="Btn_Start" class='btn btn-primary'>{{btnLabel}}</button>
-        <!-- <button id="Btn_Close" class='btn btn-primary'>Close</button> -->
       </div>
 
     </div>
@@ -158,8 +160,6 @@
       // insomnia questions
       insomniaQuestions = data.surveys.insomnia.questions;
 
-
-
       // load the first set of questions
       changeSection('insomnia');
 
@@ -169,6 +169,8 @@
       ////// event handlers  //////////
       /////////////////////////////////
 
+
+      // do stuff when the user drags the slider
       $('#Card-Wrapper').on('input', '#myRange', function(){
         // we made a selection so enable the next button
         enableNext();
@@ -193,8 +195,6 @@
       $('#Btn_Continue').click(function(){
         $('.finishedOverlay').fadeOut();
       });
-
-
 
       // next button /////////////////////
       ////////////////////////////////////
@@ -271,7 +271,7 @@
 
     function changeSection(newSection){
 
-      // set the name of the new current section
+      // set the section name
       currentSection = newSection;
 
       switch(newSection){
