@@ -20,7 +20,7 @@ data = {surveys : {
             ],
             headline:"Several statements reflecting people’s beliefs and attitudes about sleep are listed below. Please indicate (by circling the number) to what extent you personally agree or disagree with each statement. There is no right or wrong answer. For each statement, circle a number that best reflects your personal experience. Consider the whole scale, rather than only the extremes of the continuum.",
           },
-          depression: {
+          insomnia: {
             questions: [
               {
                 question: "Difficulty falling asleep",
@@ -175,7 +175,7 @@ data = {surveys : {
               }
             ]
           },
-          insomnia: {
+          depression: {
             questions: [
               {
                 question: "Little interest or pleasure in doing things",
