@@ -211,8 +211,29 @@
       // insomnia questions
       insomniaQuestions = data.surveys.insomnia.questions;
 
+      // check for section query string
+      const qsSection = params.get("section");
+
       // load the first set of questions
-      changeSection('insomnia');
+      switch(qsSection){
+        case "depression":
+          changeSection('depression');
+          break;
+        case "anxiety":
+          changeSection('anxiety');
+          break;
+        case "beliefs":
+          changeSection('beliefs');
+          break;
+        case "insomnia":
+          changeSection('insomnia');
+          break;
+        default:
+          changeSection('insomnia');
+      }
+
+
+      //changeSection('insomnia');
 
 
 
