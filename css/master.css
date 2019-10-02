@@ -282,8 +282,7 @@ input[type="radio"]:checked + label span.bullet {
 
 .v2 .slideTrack {
   width: 1970px;
-  height:50px;
-  background:#000;
+  background:transparent;
 }
 
 .v2 .slideRibbon {
@@ -291,7 +290,8 @@ input[type="radio"]:checked + label span.bullet {
   background:#transparent;
   display:inline-block;
   color:#000;
-  padding:0 150px;
+  padding:0 160px;
+  margin-top:5px;
 }
 
 .v2 ul.slideItems{
@@ -308,4 +308,10 @@ input[type="radio"]:checked + label span.bullet {
   color: #fff;
   font-size: 40px;
   background:transparent;
+}
+
+.svg-arrow {
+  position: relative;
+  left: 50%;
+  margin-left: -12px;
 }
