@@ -108,7 +108,19 @@
 
         <div class="slideTrack">
           <div class="slideRibbon">
-            sauce_aoweimacpoweicmpaweo
+            <ul class="slideItems">
+              <li class="slideItem">0</li>
+              <li class="slideItem">1</li>
+              <li class="slideItem">2</li>
+              <li class="slideItem">3</li>
+              <li class="slideItem">4</li>
+              <li class="slideItem">5</li>
+              <li class="slideItem">6</li>
+              <li class="slideItem">7</li>
+              <li class="slideItem">8</li>
+              <li class="slideItem">9</li>
+              <li class="slideItem">10</li>
+            </ul>
           </div>
         </div>
 
@@ -420,8 +432,17 @@
         if(currentSection == 'beliefs'){
           $('.slideWrapper').show();
 
-          // for version 2..
-          $('.slideRibbon').draggable();
+          // for version 2.. prob dont need to check version here
+          if(appVersion == "2"){
+            $('.slideRibbon').draggable({
+              axis:"x",
+              containment: "parent",
+              //grid: [ 75, 0 ],
+              drag: function( event, ui ) {
+                console.log('left: '+ui.position.left);
+              }
+            });
+          }
         }
         $(this).fadeIn();
       });
