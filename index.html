@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="css/master.css">
     <link rel="manifest" href="json/manifest.json">
   </head>
-  <body>
+  <body id="Body">
     <div id='Wrapper' class='wrapper'>
       <header>
         <h1 id="HeaderText">
@@ -59,10 +59,10 @@
 
 
   <!-- //////////////////////////////// -->
-  <!-- //////// Card template ///////////// -->
+  <!-- //////// Card templates ///////////// -->
   <!-- //////////////////////////////// -->
 
-  <script id="Card-Template" type="text/x-handlebars-template">
+  <script id="Card-Template-1" type="text/x-handlebars-template">
     <div class='content-card'>
 
       <p>{{headline}}</p>
@@ -87,6 +87,32 @@
 
     </div>
 
+  </script>
+
+  <script id="Card-Template-2" type="text/x-handlebars-template">
+    <div class='content-card v2'>
+
+      <p>{{headline}}</p>
+      <h2>{{question}}</h2>
+
+      <ul class="question-list v2">
+        {{#each answers}}
+          <li class="answerTag">
+            {{answer}}
+          </li>
+        {{/each}}
+      </ul>
+
+      <div class="slideWrapper">
+        <div class="rangeOutput" id="rangeOutput">5</div>
+        <div class="slidecontainer">
+          <input type="range" min="0" max="100" value="50" class="slider" id="myRange">
+        </div>
+        <div>Strongly disagree = 0</div>
+        <div>Strongly agree = 10</div>
+      </div>
+
+    </div>
   </script>
 
   <!-- //////////////////////////////// -->
@@ -130,6 +156,8 @@
     var panelTemplateSource;
     var panelTemplateClean;
 
+    var appVersion;
+
 
 
 
@@ -140,14 +168,37 @@
       ////// page load  //////////////
       ////////////////////////////////
 
-      // get the handlebars tempalate structure
-      cardTemplateSource = document.getElementById("Card-Template").innerHTML;
+      // what version do we show
+      const params = new URLSearchParams(window.location.search);
+      const vNum = params.get("version");
+
+
+      // set the card template, appVersion variable and body class for this version
+      switch(vNum){
+        case "1":
+          appVersion = '1';
+          $('#Body').addClass('v1');
+          cardTemplateSource = document.getElementById("Card-Template-1").innerHTML;
+          console.log("showing version "+vNum);
+          break;
+        case "2":
+          appVersion = '2';
+          $('#Body').addClass('v2');
+          cardTemplateSource = document.getElementById("Card-Template-2").innerHTML;
+          console.log("showing version "+vNum);
+          break;
+        default:
+          appVersion = '1';
+          $('#Body').addClass('v1');
+          cardTemplateSource = document.getElementById("Card-Template-1").innerHTML;
+          console.log("showing default version");
+      }
+
       panelTemplateSource = document.getElementById("Panel-Template").innerHTML;
 
       // sprinkle some magic dust
       cardTemplateClean = Handlebars.compile(cardTemplateSource);
       panelTemplateClean = Handlebars.compile(panelTemplateSource);
-
 
       // get data for each question set...
 
@@ -176,6 +227,12 @@
         enableNext();
         var value = this.value;
         updateSliderValue(value);
+      });
+
+      $('#Card-Wrapper').on('click', '.answerTag', function(){
+        // we made a selection so enable the next button
+        $(this).addClass('on');
+        $(this).siblings().removeClass('on');
       });
 
 
