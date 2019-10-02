@@ -23,7 +23,6 @@
           </div>
         </div> <!--  / .progressBar_wrapper -->
       </header>
-
       <div id="Card-Wrapper" class='card-wrapper'>
       <!-- //////////////////////////////////// -->
       <!-- //////// content goes here ///////// -->
@@ -55,6 +54,7 @@
 
   <script src="js/scripts.js"></script>
   <script src="js/jquery-3.2.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.js"></script>
   <script src="js/handlebars-v4.2.0.js"></script>
 
 
@@ -104,12 +104,16 @@
       </ul>
 
       <div class="slideWrapper">
-        <div class="rangeOutput" id="rangeOutput">5</div>
-        <div class="slidecontainer">
-          <input type="range" min="0" max="100" value="50" class="slider" id="myRange">
+
+        <div class="slideTrack">
+          <div class="slideRibbon">
+            aoweimacpoweicmpaweo
+          </div>
         </div>
+
         <div>Strongly disagree = 0</div>
         <div>Strongly agree = 10</div>
+
       </div>
 
     </div>
@@ -274,6 +278,7 @@
         $('.finishedOverlay').fadeOut();
       });
 
+
       // next button /////////////////////
       ////////////////////////////////////
 
@@ -413,6 +418,9 @@
         updateProgressBar();
         if(currentSection == 'beliefs'){
           $('.slideWrapper').show();
+          
+          // for version 2..
+          $('.slideRibbon').draggable();
         }
         $(this).fadeIn();
       });
