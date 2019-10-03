@@ -283,6 +283,7 @@ input[type="radio"]:checked + label span.bullet {
 .v2 .slideTrack {
   width: 1970px;
   background:transparent;
+  position:relative;
 }
 
 .v2 .slideRibbon {
@@ -291,6 +292,9 @@ input[type="radio"]:checked + label span.bullet {
   color:#000;
   padding:0 160px;
   margin-top:5px;
+  position:relative;
+  bottom:0;
+  float:left;
 }
 
 .v2 ul.slideItems{
@@ -306,12 +310,36 @@ input[type="radio"]:checked + label span.bullet {
   width: 75px;
   text-align: center;
   color: #fff;
-  font-size: 40px;
+  font-size: 50px;
+  font-weight:bold;
   background:transparent;
+  opacity:0.2;
 }
 
 .svg-arrow {
   position: relative;
   left: 50%;
   margin-left: -12px;
+}
+
+.v2 .slideLegend {
+  position:absolute;
+  margin-top:100px;
+  left:40px;
+  line-height: 20px;
+  color:#ADADAD;
+}
+
+.snaptargets{
+  float:left;
+  position:relative;
+  bottom:0;
+  display:none;
+}
+
+.snaptarget{
+  height:10px;
+  width:75px;
+  color:red;
+  display:inline-block;
 }

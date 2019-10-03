@@ -77,6 +77,7 @@
           </li>
         {{/each}}
       </ul>
+
       <div class="slideWrapper">
         <div class="rangeOutput" id="rangeOutput">5</div>
         <div class="slidecontainer">
@@ -87,7 +88,6 @@
       </div>
 
     </div>
-
   </script>
 
   <script id="Card-Template-2" type="text/x-handlebars-template">
@@ -114,26 +114,47 @@
               </g>
           </svg>
         </div>
-        <div class="slideTrack">
-          <div class="slideRibbon">
-            <ul class="slideItems">
-              <li class="slideItem">0</li>
-              <li class="slideItem">1</li>
-              <li class="slideItem">2</li>
-              <li class="slideItem">3</li>
-              <li class="slideItem">4</li>
-              <li class="slideItem">5</li>
-              <li class="slideItem">6</li>
-              <li class="slideItem">7</li>
-              <li class="slideItem">8</li>
-              <li class="slideItem">9</li>
-              <li class="slideItem">10</li>
-            </ul>
-          </div>
-        </div>
 
-        <div>Strongly disagree = 0</div>
-        <div>Strongly agree = 10</div>
+          <div class="slideTrack">
+
+            <div class='snaptargets'>
+              <div class='snaptarget'></div>
+              <div class='snaptarget'></div>
+              <div class='snaptarget'></div>
+              <div class='snaptarget'></div>
+              <div class='snaptarget'></div>
+              <div class='snaptarget'></div>
+              <div class='snaptarget'></div>
+              <div class='snaptarget'></div>
+              <div class='snaptarget'></div>
+              <div class='snaptarget'></div>
+              <div class='snaptarget'></div>
+            </div>
+
+            <!-- draggable -->
+            <div class="slideRibbon">
+              <ul class="slideItems">
+                <li class="slideItem item0">0</li>
+                <li class="slideItem item1">1</li>
+                <li class="slideItem item2">2</li>
+                <li class="slideItem item3">3</li>
+                <li class="slideItem item4">4</li>
+                <li class="slideItem item5">5</li>
+                <li class="slideItem item6">6</li>
+                <li class="slideItem item7">7</li>
+                <li class="slideItem item8">8</li>
+                <li class="slideItem item9">9</li>
+                <li class="slideItem item10">10</li>
+              </ul>
+            </div>
+            <!-- draggable -->
+
+          </div>
+
+        <div class="slideLegend">
+          <div>Strongly disagree = 0</div>
+          <div>Strongly agree = 10</div>
+        </div>
 
       </div>
 
@@ -445,9 +466,62 @@
             $('.slideRibbon').draggable({
               axis:"x",
               containment: "parent",
-              //grid: [ 75, 0 ],
+              //snap: '.snaptarget',
+              grid: [ 80, 0 ],
               drag: function( event, ui ) {
-                console.log('left: '+ui.position.left);
+                var loc = ui.position.left;
+                var item;
+                switch(loc){
+                  case 0:
+                    // 10
+                    console.log('item 10');
+                    item = '.item10';
+                    break;
+                  case 80:
+                    // 9
+                    item = '.item9';
+                    break;
+                  case 160:
+                    // 8
+                    item = '.item8';
+                    break;
+                  case 240:
+                    // 7
+                    item = '.item7';
+                    break;
+                  case 320:
+                    // 6
+                    item = '.item6';
+                    break;
+                  case 400:
+                    // 5
+                    item = '.item5';
+                    break;
+                  case 480:
+                    // 4
+                    item = '.item4';
+                    break;
+                  case 560:
+                    // 3
+                    item = '.item3';
+                    break;
+                  case 640:
+                    // 2
+                    item = '.item2';
+                    break;
+                  case 720:
+                    //1
+                    item = '.item1';
+                    break;
+                  case 800:
+                    // 0
+                    item = '.item0';
+                    break;
+                  default:
+                    console.log('position issue');
+                }
+                $('.slideItem').css('opacity','0.2');
+                $(item).css('opacity','1.0');
               }
             });
           }
