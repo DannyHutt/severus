@@ -60,11 +60,13 @@ header{
   background-color: #979797;
   height:100%;
   width:14%;
+  border-radius:5px;
 }
 
 .progressBar-bg{
   background-color: #393838;
   height:100%;
+  border-radius:5px;
 }
 
 
@@ -199,6 +201,9 @@ input[type="radio"]:checked + label span.bullet {
 /* ///////////////////  end radio button styling  /////////////////// */
 
 
+
+
+
 #SlideContainer{
   display:none;
 }
@@ -270,7 +275,7 @@ input[type="radio"]:checked + label span.bullet {
 
 /* slider */
 
-.v2 .slideWrapper {
+.slideWrapper {
   position:absolute;
   left:0;
   right:0;
@@ -280,13 +285,13 @@ input[type="radio"]:checked + label span.bullet {
   align-items: center;
 }
 
-.v2 .slideTrack {
+.slideTrack {
   width: 1970px;
   background:transparent;
   position:relative;
 }
 
-.v2 .slideRibbon {
+.slideRibbon {
   background:#transparent;
   display:inline-block;
   color:#000;
@@ -297,13 +302,13 @@ input[type="radio"]:checked + label span.bullet {
   float:left;
 }
 
-.v2 ul.slideItems{
+ul.slideItems{
   margin:0;
   display:inline-block;
   margin-bottom:100px;
 }
 
-.v2 li.slideItem{
+li.slideItem{
   line-height: 50px;
   list-style: none;
   display: inline-block;
@@ -322,7 +327,7 @@ input[type="radio"]:checked + label span.bullet {
   margin-left: -12px;
 }
 
-.v2 .slideLegend {
+.slideLegend {
   position:absolute;
   margin-top:100px;
   left:40px;
@@ -342,4 +347,22 @@ input[type="radio"]:checked + label span.bullet {
   width:75px;
   color:red;
   display:inline-block;
+}
+
+/* ////////////////////////////////////////////////////////////// */
+/* ///////////////////  Version 3  /////////////////// */
+/* ////////////////////////////////////////////////////////////// */
+
+.v3 #Btn_Next{
+  display:none;
+}
+
+/* ////////////////////////////////////////////////////////////// */
+/* ///////////////////  Version 1 resets  /////////////////// */
+/* ////////////////////////////////////////////////////////////// */
+
+body.v1 .slideWrapper
+{
+  display:block;
+  position:static;
 }

@@ -71,7 +71,7 @@
 
       <ul class="question-list">
         {{#each answers}}
-          <li>
+          <li class="answerRadio">
             <input type="radio" id="radio_{{answer}}" name="radio" />
             <label for="radio_{{answer}}"><span class="wrap"><span class="bullet"></span></span>{{answer}}</label>
           </li>
@@ -101,6 +101,79 @@
       <ul class="question-list v2">
         {{#each answers}}
           <li class="answerTag">
+            {{answer}}
+          </li>
+        {{/each}}
+      </ul>
+
+      <div id="SlideContainer">
+        <div class="slideWrapper">
+          <div class="svg-arrow">
+            <svg width="25px" height="20px" viewBox="0 0 25 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                <g id="Assessment-Flow-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                    <g id="Intro-to-ISI-Q3-Copy-7" transform="translate(-175.000000, -283.000000)" fill="#FFFFFF">
+                        <path d="M189.182357,285.617 L199.019026,300.918485 C199.61633,301.847625 199.347324,303.085053 198.418184,303.682357 C198.09559,303.889739 197.720172,304 197.336669,304 L177.663331,304 C176.558761,304 175.663331,303.104569 175.663331,302 C175.663331,301.616497 175.773592,301.241079 175.980974,300.918485 L185.817643,285.617 C186.414947,284.68786 187.652375,284.418854 188.581515,285.016158 C188.82252,285.17109 189.027425,285.375994 189.182357,285.617 Z" id="Triangle" transform="translate(187.500000, 293.500000) scale(1, -1) translate(-187.500000, -293.500000) "></path>
+                    </g>
+                </g>
+            </svg>
+          </div>
+
+            <div class="slideTrack">
+
+              <div class='snaptargets'>
+                <div class='snaptarget'></div>
+                <div class='snaptarget'></div>
+                <div class='snaptarget'></div>
+                <div class='snaptarget'></div>
+                <div class='snaptarget'></div>
+                <div class='snaptarget'></div>
+                <div class='snaptarget'></div>
+                <div class='snaptarget'></div>
+                <div class='snaptarget'></div>
+                <div class='snaptarget'></div>
+                <div class='snaptarget'></div>
+              </div>
+
+              <!-- draggable -->
+              <div class="slideRibbon">
+                <ul class="slideItems">
+                  <li class="slideItem item0">0</li>
+                  <li class="slideItem item1">1</li>
+                  <li class="slideItem item2">2</li>
+                  <li class="slideItem item3">3</li>
+                  <li class="slideItem item4">4</li>
+                  <li class="slideItem item5">5</li>
+                  <li class="slideItem item6">6</li>
+                  <li class="slideItem item7">7</li>
+                  <li class="slideItem item8">8</li>
+                  <li class="slideItem item9">9</li>
+                  <li class="slideItem item10">10</li>
+                </ul>
+              </div>
+              <!-- draggable -->
+
+            </div>
+
+          <div class="slideLegend">
+            <div>Strongly disagree = 0</div>
+            <div>Strongly agree = 10</div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </script>
+
+  <script id="Card-Template-3" type="text/x-handlebars-template">
+    <div class='content-card v3'>
+
+      <p>{{headline}}</p>
+      <h2>{{question}}</h2>
+
+      <ul class="question-list v2">
+        {{#each answers}}
+          <li class="answerTagAutoAdvance">
             {{answer}}
           </li>
         {{/each}}
@@ -237,6 +310,12 @@
           cardTemplateSource = document.getElementById("Card-Template-2").innerHTML;
           console.log("showing version "+vNum);
           break;
+        case "3":
+          appVersion = '3';
+          $('#Body').addClass('v3');
+          cardTemplateSource = document.getElementById("Card-Template-3").innerHTML;
+          console.log("showing version "+vNum);
+          break;
         default:
           appVersion = '1';
           $('#Body').addClass('v1');
@@ -283,10 +362,6 @@
       }
 
 
-      //changeSection('insomnia');
-
-
-
       /////////////////////////////////
       ////// event handlers  //////////
       /////////////////////////////////
@@ -301,16 +376,24 @@
       });
 
       $('#Card-Wrapper').on('click', '.answerTag', function(){
-        // we made a selection so enable the next button
         $(this).addClass('on');
         $(this).siblings().removeClass('on');
-      });
-
-
-      // handler for tapping on an answer
-      $('#Card-Wrapper').on('click', 'ul.question-list li', function(){
         // we made a selection so enable the next button
         enableNext();
+      });
+
+      $('#Card-Wrapper').on('click', '.answerTagAutoAdvance', function(){
+        $(this).addClass('on');
+        $(this).siblings().removeClass('on');
+        // we made a selection so auto-advance to the next question
+        setTimeout(clickNext, 500);
+      });
+
+      $('#Card-Wrapper').on('click', '.answerRadio', function(){
+        if(atLeastOneRadio()){
+          // we made a selection so enable the next button
+          enableNext();
+        }
       });
 
 
@@ -403,6 +486,11 @@
       // set the section name
       currentSection = newSection;
 
+      // show or hide the next button
+      if(appVersion == '3' && currentSection == 'beliefs'){
+        showNext();
+      }
+
       switch(newSection){
         case 'beliefs':
           questionSet = beliefQuestions;
@@ -444,8 +532,8 @@
       numCurrentQ = newScreenNum;
 
       // disable next button
-      disableNext();
       // next gets enabled when a selection is made
+      disableNext();
 
       // get current question text
       questionText = questionSet[numCurrentQ].question;
@@ -465,71 +553,68 @@
         if(currentSection == 'beliefs'){
           $('#SlideContainer').show();
 
-          // for version 2.. prob dont need to check version here
-          if(appVersion == "2"){
-            $('.slideRibbon').draggable({
-              axis:"x",
-              containment: "parent",
-              //snap: '.snaptarget',
-              grid: [ 80, 0 ],
-              drag: function( event, ui ) {
-                enableNext();
-                var loc = ui.position.left;
-                var item;
-                switch(loc){
-                  case 0:
-                    // 10
-                    console.log('item 10');
-                    item = '.item10';
-                    break;
-                  case 80:
-                    // 9
-                    item = '.item9';
-                    break;
-                  case 160:
-                    // 8
-                    item = '.item8';
-                    break;
-                  case 240:
-                    // 7
-                    item = '.item7';
-                    break;
-                  case 320:
-                    // 6
-                    item = '.item6';
-                    break;
-                  case 400:
-                    // 5
-                    item = '.item5';
-                    break;
-                  case 480:
-                    // 4
-                    item = '.item4';
-                    break;
-                  case 560:
-                    // 3
-                    item = '.item3';
-                    break;
-                  case 640:
-                    // 2
-                    item = '.item2';
-                    break;
-                  case 720:
-                    //1
-                    item = '.item1';
-                    break;
-                  case 800:
-                    // 0
-                    item = '.item0';
-                    break;
-                  default:
-                    console.log('position issue');
-                }
-                $('.slideItem').css('opacity','0.2');
-                $(item).css('opacity','1.0');
+          $('.slideRibbon').draggable({
+            axis:"x",
+            containment: "parent",
+            //snap: '.snaptarget',
+            grid: [ 80, 0 ],
+            drag: function( event, ui ) {
+              enableNext();
+              var loc = ui.position.left;
+              var item;
+              switch(loc){
+                case 0:
+                  // 10
+                  item = '.item10';
+                  break;
+                case 80:
+                  // 9
+                  item = '.item9';
+                  break;
+                case 160:
+                  // 8
+                  item = '.item8';
+                  break;
+                case 240:
+                  // 7
+                  item = '.item7';
+                  break;
+                case 320:
+                  // 6
+                  item = '.item6';
+                  break;
+                case 400:
+                  // 5
+                  item = '.item5';
+                  break;
+                case 480:
+                  // 4
+                  item = '.item4';
+                  break;
+                case 560:
+                  // 3
+                  item = '.item3';
+                  break;
+                case 640:
+                  // 2
+                  item = '.item2';
+                  break;
+                case 720:
+                  //1
+                  item = '.item1';
+                  break;
+                case 800:
+                  // 0
+                  item = '.item0';
+                  break;
+                default:
+                  console.log('position issue');
               }
-            });
-          }
+              $('.slideItem').css('opacity','0.2');
+              $(item).css('opacity','1.0');
+            }
+          });
+
         }
         $(this).fadeIn();
       });
@@ -599,7 +684,19 @@
     // check if there is a radio button selected
     // this guy is not actually being used...
     function atLeastOneRadio() {
-      return ($('input[type=radio]:checked').size() > 0);
+      return ($('input[type=radio]:checked').length > 0);
+    }
+
+    function clickNext(){
+      $('#Btn_Next').click();
+    }
+
+    function hideNext(){
+      $('#Btn_Next').hide();
+    }
+
+    function showNext(){
+      $('#Btn_Next').show();
     }
 
     function disableNext(){
